@@ -6,7 +6,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-     http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,76 +14,54 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd
-                           http://www.springframework.org/schema/mvc
-                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    
-    <!-- **************************************************************** -->
-    <!--  RESOURCE FOLDERS CONFIGURATION                                  -->
-    <!--  Dispatcher configuration for serving static resources           -->
-    <!-- **************************************************************** -->
-    <mvc:resources location="/images/" mapping="/images/**" />
-    <mvc:resources location="/css/" mapping="/css/**" />
-    
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- **************************************************************** -->
-    <!--  SPRING ANNOTATION PROCESSING                                    -->
-    <!-- **************************************************************** -->
+    <!-- Resource folders configuration -->
+    <!-- Dispatcher configuration for serving static resources -->
+    <mvc:resources location="/resources/" mapping="/resources/**" />
+
+    <!-- Spring annotation processing -->
     <mvc:annotation-driven conversion-service="conversionService" />
     <context:component-scan base-package="org.me.springxml.controllers" />
 
-
-    <!-- **************************************************************** -->
-    <!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    -->
-    <!--  Standard Spring MessageSource implementation                    -->
-    <!-- **************************************************************** -->
+    <!-- Message externalization/internationalization -->
+    <!-- Standard Spring MessageSource implementation -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="Messages" />
     </bean>
 
-
-    <!-- **************************************************************** -->
-    <!--  CONVERSION SERVICE                                              -->
-    <!--  Standard Spring formatting-enabled implementation               -->
-    <!-- **************************************************************** -->
+    <!-- Conversion service -->
+    <!-- Standard Spring formatting-enabled implementation -->
     <bean id="conversionService" 
           class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
-                <!--
-                <bean class="org.me.springxml" />
-                -->
+                <!-- additional formatters -->
             </set>
         </property>
     </bean>
 
-
-    <!-- **************************************************************** -->
-    <!--  THYMELEAF-SPECIFIC ARTIFACTS                                    -->
-    <!--  TemplateResolver <- TemplateEngine <- ViewResolver              -->
-    <!-- **************************************************************** -->
-
+    <!-- Thymeleaf-specific artifacts -->
+    <!-- TemplateResolver <- TemplateEngine <- ViewResolver -->
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/" />
         <property name="suffix" value=".html" />
         <property name="templateMode" value="HTML5" />
     </bean>
-    
     <bean id="templateEngine"
           class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
     </bean>
-   
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
         <property name="order" value="1" />
